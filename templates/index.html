@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR AI Agent | Precision Employee Intelligence</title>
+    <!-- Google Fonts: Inter for clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --bg-deep: #0d1117;
+            --bg-sidebar: #161b22;
+            --indigo-accent: #6366f1;
+            --indigo-glow: rgba(99, 102, 241, 0.4);
+            --emerald-success: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.4);
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #484f58;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --sidebar-width: 340px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            position: relative;
+        }
+
+        /* Animated Grid Background */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            from { background-position: 0 0; }
+            to { background-position: 40px 40px; }
+        }
+
+        /* Layout Structure */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            padding: 1.75rem;
+            z-index: 10;
+        }
+
+        .main-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+        }
+
+        /* Sidebar Logo */
+        .logo {
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            margin-left: 2.2rem;
+        }
+
+        /* Upload Zone */
+        .upload-card {
+            background: var(--glass);
+            border: 2px dashed var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-card:hover {
+            border-color: var(--indigo-accent);
+            background: rgba(99, 102, 241, 0.05);
+            box-shadow: 0 0 20px var(--indigo-glow);
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            color: var(--indigo-accent);
+        }
+
+        .upload-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .upload-filename {
+            display: none;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--emerald-success);
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        #file-input { display: none; }
+
+        /* Ingestion Status */
+        .ingestion-section {
+            display: none;
+            margin-top: 2rem;
+            padding: 1.25rem;
+            background: var(--glass);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .progress-wrapper {
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--indigo-accent), var(--emerald-success));
+            transition: width 0.5s ease;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--emerald-success);
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+        }
+
+        /* Suggestion Chips */
+        .suggestions-section {
+            margin-top: 2rem;
+        }
+
+        .suggestions-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .suggestion-chip {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 0.9rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .suggestion-chip:hover {
+            color: var(--text-primary);
+            border-color: var(--indigo-accent);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Bottom Badge */
+        .sidebar-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .pulse-dot {
+            width: 10px; height: 10px;
+            background: var(--emerald-success);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--emerald-glow);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+
+        /* Top Bar */
+        .topbar {
+            height: 70px;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            z-index: 5;
+        }
+
+        .topbar-left {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .status-ready {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--emerald-success);
+            font-weight: 500;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .icon-btn:hover {
+            color: var(--text-primary);
+            background: var(--glass);
+        }
+
+        /* Chat Messages */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        .message-row {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            animation: slideUp 0.4s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 1.25rem;
+            position: relative;
+        }
+
+        .user-row { align-items: flex-end; }
+        .user-bubble {
+            background: var(--indigo-accent);
+            color: white;
+            border-radius: 20px 20px 4px 20px;
+            box-shadow: 0 10px 15px -3px var(--indigo-glow);
+        }
+
+        .ai-row { align-items: flex-start; }
+        .ai-bubble {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--indigo-accent);
+            border-radius: 4px 20px 20px 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .avatar {
+            font-size: 1.25rem;
+            width: 36px; height: 36px;
+            background: var(--bg-deep);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--indigo-accent);
+            padding: 0.25rem 0.6rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .timestamp {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+        }
+
+        /* Table inside Chat */
+        .table-responsive {
+            margin: 1rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Input Area */
+        .input-belt {
+            padding: 1.5rem 2rem 2rem;
+            background: linear-gradient(to top, var(--bg-deep), transparent);
+        }
+
+        .input-container {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 0.6rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-end;
+            transition: var(--transition);
+        }
+
+        .input-container:focus-within {
+            border-color: var(--indigo-accent);
+            box-shadow: 0 0 15px var(--indigo-glow);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            resize: none;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            outline: none;
+            max-height: 120px;
+            line-height: 1.5;
+        }
+
+        .send-btn {
+            background: var(--indigo-accent);
+            color: white;
+            border: none;
+            width: 44px; height: 44px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--indigo-glow);
+        }
+
+        .send-btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .input-footer {
+            margin-top: 0.75rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Thinking State */
+        .thinking-dots {
+            display: flex;
+            gap: 4px;
+            padding: 0.5rem 0;
+        }
+
+        .dot {
+            width: 6px; height: 6px;
+            background: var(--indigo-accent);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                display: none; /* In a real app, we'd add a toggle */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Panel -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-title">🤖 HR AI Agent</div>
+            <div class="logo-subtitle">Powered by Endee + Groq</div>
+        </div>
+
+        <div class="upload-card" onclick="document.getElementById('file-input').click()" id="drop-zone">
+            <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <div class="upload-text">Drop CSV or click to upload</div>
+            <div class="upload-filename" id="filename-display">
+                <span>✓</span> <span id="filename-text"></span>
+            </div>
+            <input type="file" id="file-input" accept=".csv">
+        </div>
+
+        <div class="ingestion-section" id="ingestion-ui">
+            <div class="status-header">
+                <span id="status-text">Ready to Index</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-wrapper">
+                <div class="progress-bar" id="progress-inner"></div>
+            </div>
+            <div class="stats-grid" id="stats-ui" style="display: none;">
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-records">0</div>
+                    <div class="stat-label">Records</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">Endee</div>
+                    <div class="stat-label">Vector DB</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="suggestions-section">
+            <div class="suggestions-title">Quick Queries</div>
+            <div class="chips-container" id="chips-container">
+                <div class="suggestion-chip">Which dept has highest churn?</div>
+                <div class="suggestion-chip">Find unhappy employees</div>
+                <div class="suggestion-chip">Top earners in Sales</div>
+                <div class="suggestion-chip">Summarize HR department</div>
+                <div class="suggestion-chip">Who left recently?</div>
+            </div>
+        </div>
+
+        <footer class="sidebar-footer">
+            <div class="pulse-dot"></div>
+            <span>llama-3.3-71b · Endee cosine index</span>
+        </footer>
+    </aside>
+
+    <!-- Main Chat Panel -->
+    <main class="main-panel">
+        <header class="topbar">
+            <div class="topbar-left">Conversation</div>
+            <div class="topbar-right">
+                <div class="status-ready">
+                    <div style="width: 8px; height: 8px; background: var(--emerald-success); border-radius: 50%;"></div>
+                    Agent Ready
+                </div>
+                <button class="icon-btn" onclick="clearChat()" title="Clear Conversation">
+                    <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <div class="chat-container" id="chat-messages">
+            <!-- Initial Welcome Message -->
+            <div class="message-row ai-row">
+                <div class="avatar">🤖</div>
+                <div class="message-bubble ai-bubble">
+                    Hello! I'm your HR AI assistant. Please upload an employee CSV dataset to get started. 🚀
+                </div>
+                <div class="timestamp">Just now</div>
+            </div>
+        </div>
+
+        <div class="input-belt">
+            <div class="input-container">
+                <textarea id="query-input" rows="1" placeholder="Ask about your employees..."></textarea>
+                <button class="send-btn" id="send-btn" disabled>
+                    <svg style="width: 20px; height: 20px; transform: rotate(45deg);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="input-footer">
+                <span>Enter to send</span>
+                <span>Shift+Enter for new line</span>
+                <span>Powered by Groq</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const dropZone = document.getElementById('drop-zone');
+        const filenameDisplay = document.getElementById('filename-display');
+        const filenameText = document.getElementById('filename-text');
+        const ingestionUI = document.getElementById('ingestion-ui');
+        const statusText = document.getElementById('status-text');
+        const progressInner = document.getElementById('progress-inner');
+        const progressPercent = document.getElementById('progress-percent');
+        const statsUI = document.getElementById('stats-ui');
+        const statRecords = document.getElementById('stat-records');
+        const queryInput = document.getElementById('query-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatMessages = document.getElementById('chat-messages');
+
+        let chatHistory = [];
+        let isAgentThinking = false;
+
+        // Auto-resize textarea
+        queryInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // File Selection
+        fileInput.addEventListener('change', handleFileUpload);
+
+        // Drag and Drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--indigo-accent)';
+            dropZone.style.background = 'rgba(99, 102, 241, 0.1)';
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--glass-border)';
+            dropZone.style.background = 'var(--glass)';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].name.endsWith('.csv')) {
+                fileInput.files = files;
+                handleFileUpload();
+            }
+        });
+
+        async function handleFileUpload() {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            filenameText.textContent = file.name;
+            filenameDisplay.style.display = 'flex';
+            ingestionUI.style.display = 'block';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const res = await fetch('/upload', { method: 'POST', body: formData });
+                startPolling();
+            } catch (err) {
+                statusText.textContent = "Upload Failed";
+                statusText.style.color = "#ef4444";
+            }
+        }
+
+        function startPolling() {
+            const interval = setInterval(async () => {
+                try {
+                    const res = await fetch('/status');
+                    const data = await res.json();
+                    
+                    statusText.textContent = data.status === 'ingesting' ? 'Indexing into Endee...' : 
+                                            data.status === 'completed' ? '✓ Data Indexed' : data.status;
+                    
+                    if (data.total > 0) {
+                        const percent = Math.round((data.progress / data.total) * 100);
+                        progressInner.style.width = percent + '%';
+                        progressPercent.textContent = percent + '%';
+                    }
+
+                    if (data.status === 'completed') {
+                        clearInterval(interval);
+                        statRecords.textContent = data.total;
+                        statsUI.style.display = 'grid';
+                        sendBtn.disabled = false;
+                        
+                        // Scroll to chat
+                        chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
+                    } else if (data.status.startsWith('error')) {
+                        clearInterval(interval);
+                        statusText.style.color = "#ef4444";
+                    }
+                } catch (e) {
+                    console.error("Polling error", e);
+                }
+            }, 1500);
+        }
+
+        // Suggestions
+        document.querySelectorAll('.suggestion-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                queryInput.value = chip.textContent;
+                queryInput.dispatchEvent(new Event('input'));
+                if (!sendBtn.disabled) sendMessage();
+            });
+        });
+
+        // Chat Logic
+        async function sendMessage() {
+            const query = queryInput.value.trim();
+            if (!query || isAgentThinking) return;
+
+            appendMessage('user', query);
+            queryInput.value = '';
+            queryInput.style.height = 'auto';
+            setThinkingState(true);
+
+            try {
+                const res = await fetch('/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query, history: chatHistory.slice(-10) })
+                });
+                const data = await res.json();
+                
+                setThinkingState(false);
+                
+                if (data.error) {
+                    appendMessage('ai', `⚠️ Error: ${data.error}`);
+                } else {
+                    appendMessage('ai', data.response);
+                    chatHistory.push({ user: query, assistant: data.response });
+                }
+            } catch (err) {
+                setThinkingState(false);
+                appendMessage('ai', "❌ Connection error. Is the backend server running?");
+            }
+        }
+
+        function setThinkingState(thinking) {
+            isAgentThinking = thinking;
+            sendBtn.disabled = thinking;
+            queryInput.placeholder = thinking ? "Agent is thinking..." : "Ask about your employees...";
+            
+            if (thinking) {
+                const thinkingDiv = document.createElement('div');
+                thinkingDiv.id = 'thinking-bubble';
+                thinkingDiv.className = 'message-row ai-row';
+                thinkingDiv.innerHTML = `
+                    <div class="avatar">🤖</div>
+                    <div class="message-bubble ai-bubble">
+                        <div class="thinking-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.appendChild(thinkingDiv);
+                chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
+            } else {
+                const bubble = document.getElementById('thinking-bubble');
+                if (bubble) bubble.remove();
+            }
+        }
+
+        function parseTable(text) {
+            if (!text.includes('|')) return text;
+            
+            const lines = text.split('\n');
+            let result = '';
+            let inTable = false;
+            let tableLines = [];
+
+            for (let line of lines) {
+                if (line.trim().startsWith('|')) {
+                    if (!inTable) {
+                        inTable = true;
+                        tableLines = [];
+                    }
+                    tableLines.push(line);
+                } else {
+                    if (inTable) {
+                        result += renderHtmlTable(tableLines);
+                        inTable = false;
+                    }
+                    result += line + '\n';
+                }
+            }
+            if (inTable) result += renderHtmlTable(tableLines);
+            return result;
+        }
+
+        function renderHtmlTable(lines) {
+            // Very basic Markdown-to-HTML table converter
+            const cleanRows = lines
+                .filter(l => !l.includes('---')) // Skip separator
+                .map(l => l.split('|').filter(c => c.trim() !== '').map(c => c.trim()));
+            
+            if (cleanRows.length === 0) return '';
+
+            let html = '<div class="table-responsive"><table><thead><tr>';
+            cleanRows[0].forEach(cell => html += `<th>${cell}</th>`);
+            html += '</tr></thead><tbody>';
+            
+            for (let i = 1; i < cleanRows.length; i++) {
+                html += '<tr>';
+                cleanRows[i].forEach(cell => html += `<td>${cell}</td>`);
+                html += '</tr>';
+            }
+            
+            html += '</tbody></table></div>';
+            return html;
+        }
+
+        function appendMessage(role, text) {
+            const row = document.createElement('div');
+            row.className = `message-row ${role}-row`;
+            
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            if (role === 'user') {
+                row.innerHTML = `
+                    <div class="message-bubble user-bubble">${text}</div>
+                    <div class="timestamp">${time}</div>
+                `;
+            } else {
+                // Check if text looks like tool output
+                const hasToolInfo = text.includes('⚡');
+                const content = parseTable(text);
+                
+                row.innerHTML = `
+                    <div class="avatar">🤖</div>
+                    <div class="message-bubble ai-bubble">
+                        ${content}
+                    </div>
+                    <div class="timestamp">${time}</div>
+                `;
+            }
+
+            chatMessages.appendChild(row);
+            chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
+        }
+
+        function clearChat() {
+            chatHistory = [];
+            chatMessages.innerHTML = `
+                <div class="message-row ai-row">
+                    <div class="avatar">🤖</div>
+                    <div class="message-bubble ai-bubble">
+                        Conversation cleared. How can I help you?
+                    </div>
+                    <div class="timestamp">Just now</div>
+                </div>
+            `;
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        queryInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

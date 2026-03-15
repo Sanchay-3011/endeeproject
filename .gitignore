@@ -1,4 +1,5 @@
-
+.env
+.env.example
 # Ignore build directory
 build/
 # Ignore build like directory

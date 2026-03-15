@@ -1,0 +1,16 @@
+# Server
+flask
+python-dotenv
+werkzeug
+
+# Endee Vector DB (Python SDK - requires Endee server running via Docker)
+endee
+
+# Embeddings
+sentence-transformers
+
+# LLM Agent
+groq
+
+# Data
+pandas

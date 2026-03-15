@@ -1,139 +1,102 @@
 <p align="center">
-  <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg">
-      <source media="(prefers-color-scheme: light)" srcset="docs/assets/logo-light.svg">
-      <img height="100" alt="Endee" src="docs/assets/logo-dark.svg">
-  </picture>
+  <img src="C:\Users\roysa\.gemini\antigravity\brain\444153c7-40d0-4bc8-87ab-f7b59dab24a3\hr_agent_header_1773569508526.png" width="100%" alt="HR AI Agent Header">
 </p>
 
+# 🤖 HR AI Agent: Precision Employee Intelligence
+
+> **Turn your HR data into actionable insights with the power of Agentic AI and Vector Search.**
+
+The **HR AI Agent** is a state-of-the-art employee intelligence platform that leverages **Endee Vector Database** and **Llama 3.1 (Groq)** to provide semantic search, attrition risk assessment, and sentiment analysis over workforce datasets.
+
+[![License](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/python-3.9+-yellow.svg)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/framework-Flask-lightgrey.svg)](https://flask.palletsprojects.com/)
+[![Endee](https://img.shields.io/badge/Vector_DB-Endee-6366f1.svg)](https://endee.io)
+
+---
+
+## ✨ Key Features
+
+*   **🔍 Semantic Workforce Search**: Ask questions in natural language like *"Who are the senior engineers with high performance but low satisfaction?"*
+*   **📊 Dynamic Data Ingestion**: Simply drop a CSV file to index your entire employee database into a high-performance vector index.
+*   **⚠️ Attrition Risk Detection**: Proactively identify employees at risk of leaving based on satisfaction, tenure, and engagement metrics.
+*   **🏢 Departmental Synthesis**: Get instant summaries of department performance, compensation distribution, and team health.
+*   **💎 Premium Glassmorphism UI**: A stunning, data-dense dashboard designed for modern HR professionals.
+
+---
+
+## 📸 visual Tour
+
+### 🖥️ The Intelligence Dashboard
+A clean, dark-themed interface designed for focus and productivity.
 <p align="center">
-    <b>High-performance open-source vector database for AI search, RAG, semantic search, and hybrid retrieval.</b>
+  <img src="C:\Users\roysa\.gemini\antigravity\brain\444153c7-40d0-4bc8-87ab-f7b59dab24a3\main_dashboard_1773569388191.png" width="90%" style="border-radius: 10px; border: 1px solid #30363d;">
 </p>
 
+### 💡 Insight Generation
+The AI Agent synthesizes complex queries into easy-to-read tables and narrative analysis.
 <p align="center">
-    <a href="./docs/getting-started.md"><img src="https://img.shields.io/badge/Quick_Start-Local_Setup-success?style=flat-square" alt="Quick Start"></a>
-    <a href="https://docs.endee.io/quick-start"><img src="https://img.shields.io/badge/Docs-Quick_Start-success?style=flat-square" alt="Docs"></a>
-    <a href="https://github.com/endee-io/endee/blob/master/LICENSE"><img src="https://img.shields.io/github/license/endee-io/endee?style=flat-square" alt="License"></a>
-    <a href="https://discord.gg/5HFGqDZQE3"><img src="https://img.shields.io/badge/Discord-Join_Chat-5865F2?logo=discord&style=flat-square" alt="Discord"></a>
-    <a href="https://endee.io/"><img src="https://img.shields.io/badge/Website-Endee-111111?style=flat-square" alt="Website"></a>
-    <!-- <a href="https://endee.io/benchmarks"><img src="https://img.shields.io/badge/Benchmarks-Coming_Soon-1F8B4C?style=flat-square" alt="Benchmarks"></a> -->
-    <!-- <a href="https://endee.io/cloud"><img src="https://img.shields.io/badge/Cloud-Coming_Soon-2496ED?style=flat-square" alt="Cloud"></a> -->
+  <img src="C:\Users\roysa\.gemini\antigravity\brain\444153c7-40d0-4bc8-87ab-f7b59dab24a3\query_results_1773569452399.png" width="45%" style="border-radius: 10px; border: 1px solid #30363d; margin-right: 5px;">
+  <img src="C:\Users\roysa\.gemini\antigravity\brain\444153c7-40d0-4bc8-87ab-f7b59dab24a3\unhappy_employees_results_1773569475073.png" width="45%" style="border-radius: 10px; border: 1px solid #30363d;">
 </p>
 
-<p align="center">
-<strong><a href="./docs/getting-started.md">Quick Start</a> • <a href="#why-endee">Why Endee</a> • <a href="#use-cases">Use Cases</a> • <a href="#features">Features</a> • <a href="#api-and-clients">API and Clients</a> • <a href="#docs-and-links">Docs</a> • <a href="#community-and-contact">Contact</a></strong>
-</p>
+---
 
-# Endee: Open-Source Vector Database for AI Search
+## 🚀 Getting Started
 
-**Endee** is a high-performance open-source vector database built for AI search and retrieval workloads. It is designed for teams building **RAG pipelines**, **semantic search**, **hybrid search**, recommendation systems, and filtered vector retrieval APIs that need production-oriented performance and control.
+### 1. Prerequisites
+*   Python 3.9+
+*   [Groq API Key](https://console.groq.com/)
+*   [Endee Vector Database](https://github.com/endee-io/endee) (Running via Docker or local build)
 
-Endee combines vector search with filtering, sparse retrieval support, backup workflows, and deployment flexibility across local builds and Docker-based environments. The project is implemented in C++ and optimized for modern CPU targets, including AVX2, AVX512, NEON, and SVE2.
-
-If you want the fastest path to evaluate Endee locally, start with the [Getting Started guide](./docs/getting-started.md) or the hosted docs at [docs.endee.io](https://docs.endee.io/quick-start).
-
-## Why Endee
-
-- Built as a dedicated vector database for AI applications, search systems, and retrieval-heavy workloads.
-- Supports dense vector retrieval plus sparse search capabilities for hybrid search use cases.
-- Includes payload filtering for metadata-aware retrieval and application-specific query logic.
-- Ships with operational features already documented in this repo, including backup flows and runtime observability.
-- Offers flexible deployment paths: local scripts, manual builds, Docker images, and prebuilt registry images.
-
-## Getting Started
-
-The full installation, build, Docker, runtime, and authentication instructions are in [docs/getting-started.md](./docs/getting-started.md).
-
-Fastest local path:
-
+### 2. Installation
 ```bash
-chmod +x ./install.sh ./run.sh
-./install.sh --release --avx2
-./run.sh
+# Clone the repository
+git clone https://github.com/roysa/endeeproject-master.git
+cd endeeproject-master
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-The server listens on port `8080`. For detailed setup paths, supported operating systems, CPU optimization flags, Docker usage, and authentication examples, use:
+### 3. Configuration
+Create a `.env` file in the root directory:
+```env
+GROQ_API_KEY=your_groq_api_key_here
+ENDEE_URL=http://localhost:8080
+```
 
-- [Getting Started](./docs/getting-started.md)
-- [Hosted Quick Start Docs](https://docs.endee.io/quick-start)
+### 4. Launch
+```bash
+# The easiest way to start is using the provided script
+./start_endee.ps1  # Windows
+./run.sh           # Linux/MacOS
 
-## Use Cases
+# Or run the Flask app directly
+python app.py
+```
+Open `http://localhost:5000` in your browser.
 
-### RAG and AI Retrieval
+---
 
-Use Endee as the retrieval layer for question answering, chat assistants, copilots, and other RAG applications that need fast vector search with metadata-aware filtering.
+## 🛠️ Technical Architecture
 
-### Agentic AI and AI Agent Memory
+The project is built on a robust stack optimized for speed and intelligence:
 
-Use Endee as the long-term memory and context retrieval layer for AI agents built with frameworks like LangChain, CrewAI, AutoGen, and LlamaIndex. Store and retrieve past observations, tool outputs, conversation history, and domain knowledge mid-execution with low-latency filtered vector search, so your autonomous agents get the right context without stalling their reasoning loop.
+-   **Frontend**: Vanilla HTML5/CSS3 with a custom Glassmorphism design system.
+-   **Backend**: Flask-based REST API for orchestration.
+-   **Agentic Layer**: **Llama 3.1-8b** via Groq for sub-second reasoning and tool use.
+-   **Knowledge Retrieval**: **Endee Vector Database** for low-latency similarity search.
+-   **Embeddings**: `all-MiniLM-L6-v2` for 384-dimensional semantic mapping.
 
-### Semantic Search
+---
 
-Build semantic search experiences for documents, products, support content, and knowledge bases using vector similarity search instead of exact keyword-only matching.
+## 📄 License
 
-### Hybrid Search
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
 
-Combine dense retrieval, sparse vectors, and filtering to improve relevance for search workflows where both semantic understanding and term-level precision matter.
+---
 
-### Recommendations and Matching
-
-Support recommendation, similarity matching, and nearest-neighbor retrieval workflows across text, embeddings, and other high-dimensional representations.
-
-## Features
-
-- **Vector search** for AI retrieval and semantic similarity workloads.
-- **Hybrid retrieval support** with sparse vector capabilities documented in [docs/sparse.md](./docs/sparse.md).
-- **Payload filtering** for structured retrieval logic documented in [docs/filter.md](./docs/filter.md).
-- **Backup APIs and flows** documented in [docs/backup-system.md](./docs/backup-system.md).
-- **Operational logging and instrumentation** documented in [docs/logs.md](./docs/logs.md) and [docs/mdbx-instrumentation.md](./docs/mdbx-instrumentation.md).
-- **CPU-targeted builds** for AVX2, AVX512, NEON, and SVE2 deployments.
-- **Docker deployment options** for local and server environments.
-
-## API and Clients
-
-Endee exposes an HTTP API for managing indexes and serving retrieval workloads. The current repo documentation and examples focus on running the server directly and calling its API endpoints.
-
-Current developer entry points:
-
-- [Getting Started](./docs/getting-started.md) for local build and run flows
-- [Hosted Docs](https://docs.endee.io/quick-start) for product documentation
-- [Release Notes 1.0.0](https://github.com/endee-io/endee/releases/tag/1.0.0) for recent platform changes
-
-## Docs and Links
-
-- [Getting Started](./docs/getting-started.md)
-- [Hosted Documentation](https://docs.endee.io/quick-start)
-- [Release Notes](https://github.com/endee-io/endee/releases/tag/1.0.0)
-- [Sparse Search](./docs/sparse.md)
-- [Filtering](./docs/filter.md)
-- [Backups](./docs/backup-system.md)
-
-## Community and Contact
-
-- Join the community on [Discord](https://discord.gg/5HFGqDZQE3)
-- Visit the website at [endee.io](https://endee.io/)
-- For trademark or branding permissions, contact [enterprise@endee.io](mailto:enterprise@endee.io)
-
-## Contributing
-
-We welcome contributions from the community to help make vector search faster and more accessible for everyone.
-
-- Submit pull requests for fixes, features, and improvements
-- Report bugs or performance issues through GitHub issues
-- Propose enhancements for search quality, performance, and deployment workflows
-
-## License
-
-Endee is open source software licensed under the **Apache License 2.0**. See the [LICENSE](./LICENSE) file for full terms.
-
-## Trademark and Branding
-
-“Endee” and the Endee logo are trademarks of Endee Labs.
-
-The Apache License 2.0 does not grant permission to use the Endee name, logos, or branding in a way that suggests endorsement or affiliation.
-
-If you offer a hosted or managed service based on this software, you must use your own branding and avoid implying it is an official Endee service.
-
-## Third-Party Software
-
-This project includes or depends on third-party software components licensed under their respective open-source licenses. Use of those components is governed by their own license terms.
+<p align="center">
+  Made with ❤️ by Sanchay Roy (12216677)
+</p>

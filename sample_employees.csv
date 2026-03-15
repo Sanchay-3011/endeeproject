@@ -1,0 +1,11 @@
+EmployeeID,Name,Department,Role,Income,Satisfaction,Attrition,YearsAtCompany,Age
+1,John Doe,Sales,Sales Executive,5420,2,Yes,3,29
+2,Jane Smith,Research & Development,Manufacturing Director,8500,4,No,7,35
+3,Bob Johnson,Human Resources,HR Specialist,4200,1,No,2,24
+4,Alice Williams,Sales,Sales Representative,3100,3,Yes,1,22
+5,Charlie Brown,Research & Development,Research Scientist,6200,2,No,5,31
+6,Diana Prince,Engineering,Software Engineer,9500,4,No,10,29
+7,Edward Norton,Sales,Manager,12000,3,No,15,45
+8,Fiona Gallagher,Human Resources,HR Manager,8800,2,Yes,4,33
+9,George Costanza,Engineering,Software Engineer,7200,1,No,2,30
+10,Hannah Montana,Sales,Sales Representative,3500,4,No,1,21
