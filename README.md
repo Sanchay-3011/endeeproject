@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="C:\Users\roysa\.gemini\antigravity\brain\444153c7-40d0-4bc8-87ab-f7b59dab24a3\hr_agent_header_1773569508526.png" width="100%" alt="HR AI Agent Header">
-</p>
 
 # 🤖 HR AI Agent: Precision Employee Intelligence
 
